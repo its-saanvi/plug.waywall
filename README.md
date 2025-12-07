@@ -24,28 +24,51 @@ cp ~/.config/waywall.bak/init.lua ~/.config/waywall/init.lua
 Or, if you do not have an existing config, you can use the init.lua already cloned in `~/.config/waywall` and modify it to your liking.
 
 # Usage
+## Plugin Configuration
 ```lua
 local plug = require("plug.init")
 plug.setup({
 	-- Use a custom directory for plugins with each .lua returning a plugin spec.
-    -- This setting is relative to the .config directory.
-    -- Eg: This would search for plugins in ~/.config/waywall/plugins.
+	-- This setting is relative to the .config directory.
+	-- Eg: This would search for plugins in ~/.config/waywall/plugins.
 	dir = "plugins",
 
-    -- Or specify a list of plugin specs.
-    -- plugins = {
-    -- 	{
-    --      -- 	Set source URL for the plugin
-    -- 		url = "https://example.com/author/sample",
-    -- 		name = "sample", -- Optional name for the plugin.
-    -- 		config = function()
-    -- 			print(require("plug.sample.init").loaded) -- Field exported from example plugin.
-    -- 		end,
-    -- 	},
-    -- },
+	-- Or specify a list of plugin specs.
+	-- plugins = {
+	-- 	{
+	--    -- 	Set source URL for the plugin
+	-- 		url = "https://example.com/author/sample",
+	-- 		name = "sample", -- Optional name for the plugin
+	-- 		config = function()
+	--      -- See sample/init.lua for an example plugin
+	-- 			print(require("sample.init").loaded)
+	-- 		end,
+	-- 		enabled = false, -- Optional, set to true to enable the plugin
+	-- 		dependencies = {
+	--      -- Optional, list of plugin specs that this plugin depends on
+	-- 		}
+	-- 		update_on_load = false, -- Optional, set to true to update the plugin on load
+	-- 	},
+	-- },
 })
 ```
+
+## Plugin updates
+```lua
+-- Update plugin with name "<name>"
+-- Returns true if successful, false otherwise.
+-- You can set it to a keybind through waywall.
+local success = plug.update({ name = "<name>" })
+```
+
+```lua
+-- Update all plugins
+-- Returns true if successful, false otherwise.
+-- You can also set it to a keybind through waywall.
+local success_all = plug.update_all()
+```
 See [plug.sample](./plug/sample/init.lua) for an example plugin.
+See [init.lua](./init.lua) for an example waywall config with plug.waywall.
 
 # License
 [GNU GPL v2](./LICENSE)
