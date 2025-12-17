@@ -21,7 +21,7 @@ git clone https://github.com/its-saanvi/plug.waywall.git ~/.config/waywall/
 ```sh
 cp ~/.config/waywall.bak/init.lua ~/.config/waywall/init.lua
 ```
-Or, if you do not have an existing config, you can use the init.lua already cloned in `~/.config/waywall` and modify it to your liking.
+Or, if you do not have an existing config, you can use the `init.lua` already cloned in `~/.config/waywall` and modify it to your liking.
 
 # Usage
 ## Plugin Configuration
@@ -32,6 +32,7 @@ plug.setup({
 	-- This setting is relative to the .config directory.
 	-- Eg: This would search for plugins in ~/.config/waywall/plugins.
 	dir = "plugins",
+	config = config,
 
 	-- Or specify a list of plugin specs.
 	-- plugins = {
@@ -39,7 +40,7 @@ plug.setup({
 	--    -- 	Set source URL for the plugin
 	-- 		url = "https://example.com/author/sample",
 	-- 		name = "sample", -- Optional name for the plugin
-	-- 		config = function()
+	-- 		config = function(config) -- `config` is the waywall config table.
 	--      -- See sample/init.lua for an example plugin
 	-- 			print(require("sample.init").loaded)
 	-- 		end,
@@ -67,7 +68,7 @@ local success = plug.update({ name = "<name>" })
 -- You can also set it to a keybind through waywall.
 local success_all = plug.update_all()
 ```
-See [plug.sample](./plug/sample/init.lua) for an example plugin.
+See [plug.sample](./sample/init.lua) for an example plugin.
 See [init.lua](./init.lua) for an example waywall config with plug.waywall.
 
 # License

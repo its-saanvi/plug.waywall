@@ -3,12 +3,21 @@
 local waywall = require("waywall")
 local helpers = require("waywall.helpers")
 
+-- Rest of config from here
+local config = {
+	input = {},
+	theme = {},
+	experimental = {},
+	actions = {},
+}
+
 local plug = require("plug.init")
 plug.setup({
 	-- Use a custom directory for plugins with each .lua returning a plugin spec.
 	-- This setting is relative to the .config directory.
 	-- Eg: This would search for plugins in ~/.config/waywall/plugins.
 	dir = "plugins",
+	config = config,
 
 	-- Or specify a list of plugin specs.
 	-- plugins = {
@@ -16,7 +25,7 @@ plug.setup({
 	--    -- 	Set source URL for the plugin
 	-- 		url = "https://example.com/author/sample",
 	-- 		name = "sample", -- Optional name for the plugin
-	-- 		config = function()
+	-- 		config = function(config) -- `config` is the waywall config table.
 	--      -- See sample/init.lua for an example plugin
 	-- 			print(require("sample.init").loaded)
 	-- 		end,
@@ -38,13 +47,5 @@ local success = plug.update({ name = "<name>" })
 -- Returns true if successful, false otherwise.
 -- You can also set it to a keybind through waywall.
 local success_all = plug.update_all()
-
--- Rest of config from here
-local config = {
-	input = {},
-	theme = {},
-	experimental = {},
-	actions = {},
-}
 
 return config

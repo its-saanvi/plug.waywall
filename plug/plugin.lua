@@ -6,8 +6,9 @@ local M = {}
 M.loaded_plugins = {}
 
 --- @param spec table<string, any>
+--- @param config table<any, any>
 --- @return string | nil
-function M.load_from_spec(spec)
+function M.load_from_spec(spec, config)
 	if not spec.url then
 		return "load spec: failed to load plugin: url not provided"
 	end
@@ -21,7 +22,7 @@ function M.load_from_spec(spec)
 	local deps = spec.dependencies
 	if deps and type(deps) == "table" then
 		for _, dep in ipairs(deps) do
-			local err2 = M.load_from_spec(dep)
+			local err2 = M.load_from_spec(dep, config)
 			if err2 then
 				return "load spec: failed to load plugin dependency: " .. err2
 			end
@@ -46,7 +47,7 @@ function M.load_from_spec(spec)
 	end
 
 	if pspec.config then
-		pspec.config()
+		pspec.config(config)
 	end
 
 	M.loaded_plugins[#M.loaded_plugins + 1] = pspec.name

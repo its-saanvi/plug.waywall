@@ -9,7 +9,8 @@ local M = {}
 Log = log.Logger:new()
 
 --- @param dir string
-local function __setup_dir(dir)
+--- @param config table<any, any>
+local function __setup_dir(dir, config)
 	local command = 'ls -a "' .. globals.WAYWALL_CONFIG_DIR .. dir .. '"'
 	local handle = io.popen(command)
 	if not handle then
@@ -32,7 +33,7 @@ local function __setup_dir(dir)
 			Log:error("setup dir: failed to load spec: " .. err)
 			goto continue
 		end
-		local err2 = plugin.load_from_spec(spec)
+		local err2 = plugin.load_from_spec(spec, config)
 		if err2 then
 			Log:error("setup dir: failed to load plugin: " .. err2)
 			goto continue
@@ -43,9 +44,10 @@ local function __setup_dir(dir)
 end
 
 --- @param plugins table<string, any>[]
-local function __setup_plugins(plugins)
+--- @param config table<any, any>
+local function __setup_plugins(plugins, config)
 	for _, spec in ipairs(plugins) do
-		local err = plugin.load_from_spec(spec)
+		local err = plugin.load_from_spec(spec, config)
 		if err then
 			Log:error("setup plugins: failed to load plugin: " .. err)
 			goto continue
@@ -60,10 +62,10 @@ function M.setup(opts)
 	Log:debug("setup start")
 	if opts.dir then
 		Log:debug("setup dir")
-		__setup_dir(opts.dir)
+		__setup_dir(opts.dir, opts.config)
 	elseif opts.plugins then
 		Log:debug("setup plugins")
-		__setup_plugins(opts.plugins)
+		__setup_plugins(opts.plugins, opts.config)
 	else
 		Log:error("setup failed: no dir or plugins")
 	end

@@ -5,7 +5,7 @@ local M = {}
 --- @class PluginSpec
 --- @field url string
 --- @field name string | nil
---- @field config fun() | nil
+--- @field config fun(config: table<any, any>) | nil
 --- @field enabled boolean
 local PluginSpec = {}
 
@@ -101,6 +101,7 @@ end
 --- @class SetupOpts
 --- @field dir string | nil
 --- @field plugins PluginSpec[] | nil
+--- @field config table<any, any>
 local SetupOpts = {}
 
 --- @class UpdateOpts
