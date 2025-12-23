@@ -102,6 +102,7 @@ end
 --- @field dir string | nil
 --- @field plugins PluginSpec[] | nil
 --- @field config table<any, any>
+--- @field path string | nil
 local SetupOpts = {}
 
 --- @class UpdateOpts
