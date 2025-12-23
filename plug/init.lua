@@ -33,12 +33,12 @@ local function __setup_dir(dir, config)
 			Log:error("setup dir: failed to load spec: " .. err)
 			goto continue
 		end
-		local err2 = plugin.load_from_spec(spec, config)
+		local pspec, err2 = plugin.load_from_spec(spec, config)
 		if err2 then
 			Log:error("setup dir: failed to load plugin: " .. err2)
 			goto continue
 		end
-		Log:debug("setup dir: loaded plugin: " .. spec.name)
+		Log:debug("setup dir: loaded plugin: " .. pspec.name)
 		::continue::
 	end
 end
@@ -47,12 +47,12 @@ end
 --- @param config table<any, any>
 local function __setup_plugins(plugins, config)
 	for _, spec in ipairs(plugins) do
-		local err = plugin.load_from_spec(spec, config)
+		local pspec, err = plugin.load_from_spec(spec, config)
 		if err then
 			Log:error("setup plugins: failed to load plugin: " .. err)
 			goto continue
 		end
-		Log:debug("setup plugins: loaded plugin: " .. spec.name)
+		Log:debug("setup plugins: loaded plugin: " .. pspec.name)
 		::continue::
 	end
 end

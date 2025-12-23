@@ -7,43 +7,47 @@ M.loaded_plugins = {}
 
 --- @param spec table<string, any>
 --- @param config table<any, any>
---- @return string | nil
+--- @return PluginSpec | nil, string | nil
 function M.load_from_spec(spec, config)
 	if not spec.url then
-		return "load spec: failed to load plugin: url not provided"
+		return nil, "load spec: failed to load plugin: url not provided"
 	end
 
 	--- @type PluginSpec | nil, string | nil
 	local pspec, err = types.PluginSpec.new(spec.url, spec.name, spec.config, spec.enabled)
 	if not pspec then
-		return "load spec: failed to load plugin: " .. err
+		return nil, "load spec: failed to load plugin: " .. err
 	end
 
 	local deps = spec.dependencies
 	if deps and type(deps) == "table" then
 		for _, dep in ipairs(deps) do
+			if type(dep) ~= "table" then
+				goto continue
+			end
 			local err2 = M.load_from_spec(dep, config)
 			if err2 then
-				return "load spec: failed to load plugin dependency: " .. err2
+				return nil, "load spec: failed to load plugin dependency: " .. err2
 			end
+			::continue::
 		end
 	end
 
 	local success1, err1 = pspec:load()
 	if not success1 then
-		return "load spec: failed to load plugin: " .. err1
+		return nil, "load spec: failed to load plugin: " .. err1
 	end
 
 	if spec.update_on_load then
 		local success2, err2 = pspec:update()
 		if not success2 then
-			return "load spec: failed to update plugin: " .. err2
+			return nil, "load spec: failed to update plugin: " .. err2
 		end
 	end
 
 	local plugin = utils.Prequire(pspec.name .. ".init")
 	if not plugin then
-		return "load plugin: failed to load plugin init"
+		return nil, "load plugin: failed to load plugin init"
 	end
 
 	if pspec.config then
@@ -51,7 +55,7 @@ function M.load_from_spec(spec, config)
 	end
 
 	M.loaded_plugins[#M.loaded_plugins + 1] = pspec.name
-	return nil
+	return pspec, nil
 end
 
 --- @param name string

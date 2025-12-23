@@ -4,7 +4,7 @@ local M = {}
 
 --- @class PluginSpec
 --- @field url string
---- @field name string | nil
+--- @field name string
 --- @field config fun(config: table<any, any>) | nil
 --- @field enabled boolean
 local PluginSpec = {}
