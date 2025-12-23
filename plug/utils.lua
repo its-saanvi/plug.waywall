@@ -11,4 +11,15 @@ function M.Prequire(module_name)
 	return mod, nil -- returns the loaded module
 end
 
+function M.Normalize_path()
+	if path:sub(1, 1) == "~" then
+		local home = os.getenv("HOME")
+		path = home .. path:sub(2)
+	end
+	if path:sub(-1) ~= "/" then
+		path = path .. "/"
+	end
+	return path
+end
+
 return M
