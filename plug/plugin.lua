@@ -25,7 +25,7 @@ function M.load_from_spec(spec, config)
 			if type(dep) ~= "table" then
 				goto continue
 			end
-			local err2 = M.load_from_spec(dep, config)
+			local _, err2 = M.load_from_spec(dep, config)
 			if err2 then
 				return nil, "load spec: failed to load plugin dependency: " .. err2
 			end
