@@ -23,6 +23,7 @@ function PluginSpec.new(url, name, config, enabled)
 		name = url:sub(start)
 		Log:debug("PluginSpec: name not provided, using " .. name)
 	end
+	name = string.gsub(name, "%.", "_")
 	local self = setmetatable({}, { __index = PluginSpec })
 	self.url = url
 	self.name = name
