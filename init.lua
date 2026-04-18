@@ -71,6 +71,25 @@ end
 function M.setup(opts)
 	Log:debug("setup start")
 
+	Log.level = (function()
+		-- If opts.log_level is set, use it.
+		if opts.log_level then
+			if opts.log_level == "error" then
+				return log.LogLevel.ERROR
+			elseif opts.log_level == "warn" then
+				return log.LogLevel.WARN
+			elseif opts.log_level == "info" then
+				return log.LogLevel.INFO
+			elseif opts.log_level == "debug" then
+				return log.LogLevel.DEBUG
+			end
+		end
+
+		-- Otherwise, default to info
+		return log.LogLevel.INFO
+	end)()
+	Log:debug("Log level: " .. Log.level)
+
 	local path = normalize_path(opts.path or globals.PLUG_CONFIG_DIR)
 	Log:debug("plugins path: '" .. "'")
 	globals.PLUG_CONFIG_DIR = path

@@ -104,6 +104,7 @@ end
 --- @field plugins PluginSpec[] | nil
 --- @field config table<any, any>
 --- @field path string | nil
+--- @field log_level string | nil
 local SetupOpts = {}
 
 --- @class UpdateOpts

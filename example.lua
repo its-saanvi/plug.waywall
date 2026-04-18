@@ -39,6 +39,7 @@ plug.setup({
 	dir = "plugins",
 	config = config,
 	path = "~/.local/waywall", -- Optional, set to override the path plugins are installed in (default is ~/.config/waywall)
+	log_level = "debug", -- Optional, set to override the log level (default is info)
 
 	-- Or specify a list of plugin specs.
 	-- plugins = {
