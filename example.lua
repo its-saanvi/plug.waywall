@@ -49,7 +49,7 @@ plug.setup({
 	-- 		name = "sample", -- Optional name for the plugin
 	-- 		config = function(config) -- `config` is the waywall config table.
 	--      -- See sample/init.lua for an example plugin
-	-- 			print(require("sample.init").loaded)
+	-- 			print(require("sample").loaded)
 	-- 		end,
 	-- 		enabled = false, -- Optional, set to true to enable the plugin
 	-- 		dependencies = {

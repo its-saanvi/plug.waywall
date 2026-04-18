@@ -46,7 +46,7 @@ plug.setup({
 	dir = "plugins",
 	config = config,
 	path = "~/.local/waywall", -- Optional, set to override the path plugins are installed in (default is ~/.config/waywall)
-	log_level = "debug", -- Optional, set to "info" by default
+	log_level = "debug", -- Optional, set to override the log level (default is info)
 
 	-- Or specify a list of plugin specs.
 	-- plugins = {
@@ -56,7 +56,7 @@ plug.setup({
 	-- 		name = "sample", -- Optional name for the plugin
 	-- 		config = function(config) -- `config` is the waywall config table.
 	--      -- See sample/init.lua for an example plugin
-	-- 			print(require("sample.init").loaded)
+	-- 			print(require("sample").loaded)
 	-- 		end,
 	-- 		enabled = false, -- Optional, set to true to enable the plugin
 	-- 		dependencies = {

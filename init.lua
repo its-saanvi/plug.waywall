@@ -7,7 +7,8 @@ local M = {}
 --- @type Logger
 Log = log.Logger:new()
 
-local function normalize_path(path)
+--- @param path string
+local function __normalize_path(path)
 	if path:sub(1, 1) == "~" then
 		local home = os.getenv("HOME")
 		path = home .. path:sub(2)
@@ -90,10 +91,10 @@ function M.setup(opts)
 	end)()
 	Log:debug("Log level: " .. Log.level)
 
-	local path = normalize_path(opts.path or globals.PLUG_CONFIG_DIR)
+	local path = __normalize_path(opts.path or globals.PLUG_CONFIG_DIR)
 	Log:debug("plugins path: '" .. "'")
 	globals.PLUG_CONFIG_DIR = path
-	package.path = package.path .. ";" .. path .. "?.lua"
+	package.path = package.path .. ";" .. path .. "?/init.lua" .. ";" .. path .. "?.lua"
 
 	if opts.dir then
 		Log:debug("setup dir")
