@@ -1,4 +1,4 @@
-local globals = require("plug.globals")
+local globals = require("globals")
 
 local M = {}
 

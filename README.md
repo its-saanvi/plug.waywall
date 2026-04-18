@@ -7,17 +7,38 @@ A simple plugin manager for waywall.
 - git
 - [waywall](https://github.com/tesselslate/waywall)
 
-## Clone plug.waywall
-```sh
-git clone https://github.com/its-saanvi/plug.waywall.git ~/.config/waywall/plug
+## Bootstrap plug.waywall
+Put the following code in your `init.lua` or any `profile.lua` file.
+```lua
+-- Bootstrap plug.waywall
+local plug_repo = "https://github.com/its-saanvi/plug.waywall"
+local waywall_share = os.getenv("XDG_DATA_HOME") or (os.getenv("HOME") .. "/.local/share") .. "/waywall"
+local plug_path = waywall_share .. "/plug"
+local file, err = io.open(plug_path .. "/.check_temp", "w")
+if not file and err then
+	if string.find(err, "No such file or directory") then
+		if not os.execute("mkdir -p " .. waywall_share) then
+			print("Failed to create waywall share directory")
+		end
+		if not os.execute("git clone " .. plug_repo .. " " .. plug_path) then
+			print("Failed to clone plug.waywall")
+		end
+	end
+else
+	file:close()
+	os.remove(plug_path .. "/.check_temp")
+end
+package.path = package.path .. ";" .. waywall_share .. "/?/init.lua" .. ";" .. plug_path .. "/?.lua"
+
+local plug = require("plug")
+plug.setup({})
 ```
 
-If you do not have an existing config, you can use the `example.lua` already cloned in `~/.config/waywall/plug` and modify it to your liking.
+If you do not have an existing config, you can use the [example.lua](./example.lua) and modify it to your liking.
 
 # Usage
 ## Plugin Configuration
 ```lua
-local plug = require("plug.init")
 plug.setup({
 	-- Use a custom directory for plugins with each .lua returning a plugin spec.
 	-- This setting is relative to the .config directory.
@@ -60,8 +81,7 @@ local success = plug.update({ name = "<name>" })
 -- You can also set it to a keybind through waywall.
 local success_all = plug.update_all()
 ```
-See [plug.sample](./sample/init.lua) for an example plugin.
-See [example.lua](./example.lua) for an example waywall config with plug.waywall.
+See [sample](./sample/init.lua) for an example plugin.
 
 # License
 [GNU GPL v2](./LICENSE)

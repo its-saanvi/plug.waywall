@@ -1,5 +1,4 @@
-local types = require("plug.types")
-local utils = require("plug.utils")
+local types = require("types")
 
 local M = {}
 
@@ -45,8 +44,8 @@ function M.load_from_spec(spec, config)
 		end
 	end
 
-	local plugin = utils.Prequire(pspec.name .. ".init")
-	if not plugin then
+	local ok, _ = pcall(require, pspec.name .. ".init")
+	if not ok then
 		return nil, "load plugin: failed to load plugin init"
 	end
 

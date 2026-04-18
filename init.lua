@@ -1,12 +1,22 @@
-local log = require("plug.log")
-local plugin = require("plug.plugin")
-local utils = require("plug.utils")
-local globals = require("plug.globals")
+local log = require("log")
+local plugin = require("plugin")
+local globals = require("globals")
 
 local M = {}
 
 --- @type Logger
 Log = log.Logger:new()
+
+local function normalize_path(path)
+	if path:sub(1, 1) == "~" then
+		local home = os.getenv("HOME")
+		path = home .. path:sub(2)
+	end
+	if path:sub(-1) ~= "/" then
+		path = path .. "/"
+	end
+	return path
+end
 
 --- @param dir string
 --- @param config table<any, any>
@@ -28,9 +38,9 @@ local function __setup_dir(dir, config)
 		--- @type table<string, any> | nil
 		filename = filename:sub(0, -#".lua" - 1)
 		Log:debug("setup dir: load spec: " .. dir .. "." .. filename)
-		local spec, err = utils.Prequire(dir .. "." .. filename)
-		if not spec then
-			Log:error("setup dir: failed to load spec: " .. err)
+		local ok, spec = pcall(require, dir .. "." .. filename)
+		if not ok then
+			Log:error("setup dir: failed to load spec: " .. spec)
 			goto continue
 		end
 		local pspec, err2 = plugin.load_from_spec(spec, config)
@@ -61,8 +71,8 @@ end
 function M.setup(opts)
 	Log:debug("setup start")
 
-	local path = utils.Normalize_path(opts.path or globals.PLUG_CONFIG_DIR)
-	Log:debug("plugins path: '" ..  "'")
+	local path = normalize_path(opts.path or globals.PLUG_CONFIG_DIR)
+	Log:debug("plugins path: '" .. "'")
 	globals.PLUG_CONFIG_DIR = path
 	package.path = package.path .. ";" .. path .. "?.lua"
 
