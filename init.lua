@@ -94,7 +94,7 @@ function M.setup(opts)
 	local path = __normalize_path(opts.path or globals.PLUG_CONFIG_DIR)
 	Log:debug("plugins path: '" .. "'")
 	globals.PLUG_CONFIG_DIR = path
-	package.path = package.path .. ";" .. path .. "?/init.lua" .. ";" .. path .. "?.lua"
+	package.path = package.path .. ";" .. path .. "?/init.lua" .. ";" .. path .. "?.lua" .. ";" .. path .. "?/?.lua"
 
 	if opts.dir then
 		Log:debug("setup dir")
