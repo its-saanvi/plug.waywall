@@ -1,4 +1,4 @@
-local types = require("types")
+local types = require("plug.types")
 
 local M = {}
 

@@ -1,6 +1,6 @@
 {
   "workspace.library": [
-    "./*.lua"
+    "./plug/*.lua"
   ],
   "runtime.version": "LuaJIT"
 }

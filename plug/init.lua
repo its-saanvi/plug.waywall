@@ -1,6 +1,6 @@
-local log = require("log")
-local plugin = require("plugin")
-local globals = require("globals")
+local log = require("plug.log")
+local plugin = require("plug.plugin")
+local globals = require("plug.globals")
 
 local M = {}
 

@@ -28,13 +28,13 @@ else
 	file:close()
 	os.remove(plug_path .. "/.check_temp")
 end
-package.path = package.path .. ";" .. waywall_share .. "/?/init.lua" .. ";" .. plug_path .. "/?.lua"
+package.path = package.path .. ";" .. waywall_share .. "/plug/?/init.lua" .. ";" .. plug_path .. "/?.lua"
 
 local plug = require("plug")
 plug.setup({})
 ```
 
-If you do not have an existing config, you can use the [example.lua](./example.lua) and modify it to your liking.
+If you do not have an existing config, you can use the [example.lua](./plug/example.lua) and modify it to your liking.
 
 # Usage
 ## Plugin Configuration
