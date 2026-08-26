@@ -49,7 +49,7 @@ function M.load_from_spec(spec, config)
 		return nil, "load plugin: failed to load plugin init"
 	end
 
-	if pspec.config then
+	if pspec.enabled and pspec.config then
 		pspec.config(config)
 	end
 
