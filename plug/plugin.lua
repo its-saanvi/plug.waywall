@@ -44,11 +44,6 @@ function M.load_from_spec(spec, config)
 		end
 	end
 
-	local ok, _ = pcall(require, pspec.name .. ".init")
-	if not ok then
-		return nil, "load plugin: failed to load plugin init"
-	end
-
 	if pspec.enabled and pspec.config then
 		pspec.config(config)
 	end
