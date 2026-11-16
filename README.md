@@ -51,15 +51,15 @@ plug.setup({
 	-- Or specify a list of plugin specs.
 	-- plugins = {
 	-- 	{
-	--    -- 	Set source URL for the plugin
+	--      -- 	Set source URL for the plugin
 	-- 		url = "https://example.com/author/sample",
 	-- 		config = function(config) -- `config` is the waywall config table.
-	--      -- See sample/init.lua for an example plugin
+	--          -- See sample/init.lua for an example plugin
 	-- 			print(require("sample").loaded)
 	-- 		end,
 	-- 		enabled = false, -- Optional, set to true to enable the plugin
 	-- 		dependencies = {
-	--      -- Optional, list of plugin specs that this plugin depends on
+	--          -- Optional, list of plugin specs that this plugin depends on
 	-- 		}
 	-- 		update_on_load = false, -- Optional, set to true to update the plugin on load
 	-- 	},
