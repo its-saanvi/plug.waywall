@@ -1,3 +1,5 @@
+local waywall = require("waywall")
+
 local M = {}
 
 --- @enum LogLevel
@@ -10,6 +12,8 @@ local LogLevel = {
 
 --- @class Logger
 --- @field __log fun(self, msg: string)
+--- @field __log_error fun(self, msg: string)
+--- @field __error_output any
 --- @field level LogLevel
 --- @field debug fun(self, msg: string)
 --- @field info fun(self, msg: string)
@@ -18,11 +22,27 @@ local LogLevel = {
 local Logger = {}
 
 function Logger:__log_error(msg)
-	error(msg)
+	waywall.listen("load", function()
+		local start = msg:match(".*:()")
+		local output = msg:sub(start)
+		if self.__error_output then
+			self.__error_output:close()
+			self.__error_output = nil
+		end
+		-- Delay the text output a little to allow the GUI to load.
+		waywall.sleep(2500)
+		self.__error_output = waywall.text("Error:" .. output, { x = 0, y = 0, color = "#F7768E", size = 3 })
+		waywall.sleep(3500)
+		if self.__error_output then
+			self.__error_output:close()
+			self.__error_output = nil
+		end
+	end)
+	self:__log("Error: " .. msg)
 end
 
 function Logger:__log(msg)
-	print(msg)
+	print("[plug.waywall] - " .. msg)
 end
 
 function Logger.new()

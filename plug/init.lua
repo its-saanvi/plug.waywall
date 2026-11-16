@@ -25,7 +25,7 @@ local function __setup_dir(dir, config)
 	local command = 'ls -a "' .. globals.WAYWALL_CONFIG_DIR .. dir .. '"'
 	local handle = io.popen(command)
 	if not handle then
-		Log:error("setup dir failed: popen failed")
+		Log:error("setup dir popen failed")
 		return
 	end
 	for filename in handle:lines() do
@@ -41,12 +41,12 @@ local function __setup_dir(dir, config)
 		Log:debug("setup dir: load spec: " .. dir .. "." .. filename)
 		local ok, spec = pcall(require, dir .. "." .. filename)
 		if not ok then
-			Log:error("setup dir: failed to load spec: " .. spec)
+			Log:error("setup dir failed to load spec: " .. spec)
 			goto continue
 		end
 		local pspec, err2 = plugin.load_from_spec(spec, config)
 		if err2 then
-			Log:error("setup dir: failed to load plugin: " .. err2)
+			Log:error("setup dir failed to load plugin: " .. err2)
 			goto continue
 		end
 		Log:debug("setup dir: loaded plugin: " .. pspec.name)
@@ -60,7 +60,12 @@ local function __setup_plugins(plugins, config)
 	for _, spec in ipairs(plugins) do
 		local pspec, err = plugin.load_from_spec(spec, config)
 		if err then
-			Log:error("setup plugins: failed to load plugin: " .. err)
+			Log:error(
+				"setup plugins failed to load plugin: '"
+					.. (pspec and pspec.name and pspec.name or spec.url)
+					.. "'"
+					.. err
+			)
 			goto continue
 		end
 		Log:debug("setup plugins: loaded plugin: " .. pspec.name)
@@ -103,7 +108,7 @@ function M.setup(opts)
 		Log:debug("setup plugins")
 		__setup_plugins(opts.plugins, opts.config)
 	else
-		Log:error("setup failed: no dir or plugins")
+		Log:error("setup failed no dir or plugins")
 	end
 	Log:debug("setup end")
 end
@@ -113,7 +118,7 @@ end
 function M.update(opts)
 	Log:debug("update start")
 	if not opts.name then
-		Log:error("update failed: no name")
+		Log:error("update failed no name")
 		return false
 	end
 

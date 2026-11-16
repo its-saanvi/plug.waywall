@@ -10,23 +10,17 @@ local M = {}
 local PluginSpec = {}
 
 --- @param url string
---- @param name string | nil
 --- @param config fun() | nil
 --- @param enabled boolean | nil
 --- @return PluginSpec | nil, string | nil
-function PluginSpec.new(url, name, config, enabled)
-	if not name then
-		local start = url:match(".*/()")
-		if not start then
-			return nil, "failed to parse url for name"
-		end
-		name = url:sub(start)
-		Log:debug("PluginSpec: name not provided, using " .. name)
-	end
-	name = string.gsub(name, "%.", "_")
+function PluginSpec.new(url, config, enabled)
 	local self = setmetatable({}, { __index = PluginSpec })
 	self.url = url
-	self.name = name
+	local start = url:match(".*/()")
+	if not start then
+		return nil, "failed to parse url for name"
+	end
+	self.name = string.gsub(url:sub(start), "%.", "_")
 	self.config = config
 	self.enabled = (function()
 		if enabled == nil then

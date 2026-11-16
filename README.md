@@ -53,7 +53,6 @@ plug.setup({
 	-- 	{
 	--    -- 	Set source URL for the plugin
 	-- 		url = "https://example.com/author/sample",
-	-- 		name = "sample", -- Optional name for the plugin
 	-- 		config = function(config) -- `config` is the waywall config table.
 	--      -- See sample/init.lua for an example plugin
 	-- 			print(require("sample").loaded)
@@ -71,6 +70,7 @@ plug.setup({
 ## Plugin updates
 ```lua
 -- Update plugin with name "<name>"
+-- Note: The name is determined from the name of the plugin's directory in `path` (default: ~/.local/state/waywall/plug/)
 -- Returns true if successful, false otherwise.
 -- You can set it to a keybind through waywall.
 local success = plug.update({ name = "<name>" })
