@@ -12,7 +12,7 @@ Put the following code in your `init.lua` or any `profile.lua` file.
 ```lua
 -- Bootstrap plug.waywall
 local plug_repo = "https://github.com/its-saanvi/plug.waywall"
-local waywall_share = os.getenv("XDG_DATA_HOME") or (os.getenv("HOME") .. "/.local/share") .. "/waywall"
+local waywall_share = (os.getenv("XDG_DATA_HOME") or (os.getenv("HOME") .. "/.local/share")) .. "/waywall"
 local plug_path = waywall_share .. "/plug"
 local file, err = io.open(plug_path .. "/.check_temp", "w")
 if not file and err then
